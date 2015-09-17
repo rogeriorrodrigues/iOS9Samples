@@ -27,6 +27,22 @@ namespace SearchDemo
 			LocationLabel.Text = Monkey.Location;
 			DescriptionTextView.Text = Monkey.Details;
 		}
+
+		private void CreateActivityForSearch()
+		{
+			var activity = new NSUserActivity("com.xamarin.searchdemo.monkey");
+			activity.EligibleForSearch = true;
+			activity.EligibleForPublicIndexing = true;
+
+			activity.Title = Monkey.Name;
+			activity.AddUserInfoEntries(NSDictionary.FromObjectAndKey(new NSString(Monkey.Name), new NSString("Name")));
+
+			var keywords = new string[] { Monkey.Name, "Monkey" };
+			activity.Keywords = new NSSet(keywords);
+			activity.ContentAttributeSet = new CoreSpotlight.CSSearchableItemAttributeSet(Monkey.Details);
+
+			activity.BecomeCurrent ();
+		}
 	}
 }
 
