@@ -26,6 +26,8 @@ namespace SearchDemo
 			);
 			LocationLabel.Text = Monkey.Location;
 			DescriptionTextView.Text = Monkey.Details;
+
+			CreateActivityForSearch ();
 		}
 
 		private void CreateActivityForSearch()
@@ -35,10 +37,11 @@ namespace SearchDemo
 			activity.EligibleForPublicIndexing = true;
 
 			activity.Title = Monkey.Name;
-			activity.AddUserInfoEntries(NSDictionary.FromObjectAndKey(new NSString(Monkey.Name), new NSString("Name")));
+			activity.AddUserInfoEntries(NSDictionary.FromObjectAndKey(
+				new NSString(Monkey.Name), new NSString("Name")));
 
-			var keywords = new string[] { Monkey.Name, "Monkey" };
-			activity.Keywords = new NSSet(keywords);
+			var keywords = new NSString[] { new NSString(Monkey.Name), new NSString("Monkey"), new NSString("monkey") };
+			activity.Keywords = new NSSet<NSString>(keywords);
 			activity.ContentAttributeSet = new CoreSpotlight.CSSearchableItemAttributeSet(Monkey.Details);
 
 			activity.BecomeCurrent ();
